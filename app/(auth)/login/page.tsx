@@ -123,8 +123,8 @@ export default function LoginPage() {
       </Link>
 
       <main className="flex-grow flex items-stretch overflow-hidden">
-        {/* Left Side: Visual/Mission (Hidden on mobile) */}
-        <div className="hidden lg:flex lg:w-1/2 relative bg-[#700000] items-center justify-center p-20 overflow-hidden">
+        {/* Left Side: Visual/Mission (Hidden on mobile/tablet) */}
+        <div className="hidden md:flex md:w-1/2 relative bg-[#700000] items-center justify-center p-12 lg:p-20 overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <svg width="100%" height="100%">
@@ -170,7 +170,7 @@ export default function LoginPage() {
         </div>
 
         {/* Right Side: Auth Form */}
-        <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto bg-gray-50/50 relative">
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 lg:p-12 overflow-y-auto bg-gray-50/50 relative">
           <Card className="w-full max-w-md bg-white rounded-[32px] shadow-2xl shadow-blue-100/50 border border-gray-100 relative z-10 overflow-hidden">
             <CardHeader className="pt-8 lg:pt-10 px-8 lg:px-10 text-center">
               <CardTitle className="text-2xl font-extrabold text-gray-900 tracking-tight">Chào mừng trở lại</CardTitle>
@@ -192,7 +192,7 @@ export default function LoginPage() {
               <form onSubmit={handleLogin} className="space-y-6">
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-bold text-gray-700 ml-1">Địa chỉ Email</Label>
+                  <Label htmlFor="email" className="text-sm font-bold text-[#374151] ml-1">Địa chỉ Email</Label>
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#0065FF] transition-colors z-10">
                       <Mail className="h-5 w-5" />
@@ -201,7 +201,7 @@ export default function LoginPage() {
                       id="email"
                       type="email"
                       className="pl-12 py-6 rounded-2xl bg-gray-50/50 border-gray-200 focus:ring-4 focus:ring-[#0065FF]/10 focus:border-[#0065FF] transition-all font-medium text-base"
-                      placeholder="hero@redhope.io.vn"
+
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}

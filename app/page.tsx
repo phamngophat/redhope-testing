@@ -35,6 +35,9 @@ const Page = async () => {
   return (
     <>
       <style>{`
+        html {
+          scroll-behavior: smooth;
+        }
         @media (min-width: 1024px) {
           .landing-layout-zoom {
             zoom: 0.875;
@@ -72,16 +75,17 @@ const Page = async () => {
                     <Button asChild size="lg" className="rounded-xl px-8 h-12 md:h-14 font-bold text-base md:text-lg shadow-xl shadow-blue-500/20">
                       <Link href="/login">Hiến máu ngay</Link>
                     </Button>
-                    <Button asChild variant="outline" size="lg" className="rounded-xl px-8 h-12 md:h-14 font-bold text-base md:text-lg bg-white border-gray-200">
-                      <Link href="*">
-                        <span>Video giới thiệu</span>
-                      </Link>
+                    <Button asChild variant="outline" size="lg" className="rounded-2xl px-6 h-12 md:h-14 font-bold text-base md:text-lg bg-white border-gray-200 hover:bg-gray-50 transition-colors shadow-sm cursor-pointer">
+                      <a href="#intro-video" className="flex items-center">
+                        <PlayIcon className="mr-3 w-4 h-4 fill-black" />
+                        <span className="text-gray-900">Video giới thiệu</span>
+                      </a>
                     </Button>
                   </div>
                 </FadeIn>
 
                 {/* Hero Image Area */}
-                <FadeIn delay={0.3} className="relative mt-0 md:mt-12 lg:mt-0">
+                <FadeIn delay={0.3} className="relative mt-12 lg:mt-0">
                   <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/50">
                     <div className="bg-slate-200 aspect-[4/3] w-full object-cover relative">
                       <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/10 to-transparent"></div>
@@ -166,6 +170,43 @@ const Page = async () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* ========== VIDEO INTRO SECTION ========== */}
+          <section id="intro-video" className="py-16 md:py-24 bg-slate-50 relative overflow-hidden scroll-mt-40">
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent"></div>
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <FadeIn className="text-center mb-10 md:mb-16">
+                <Badge variant="outline" className="px-4 py-1.5 bg-white border-blue-200 text-primary uppercase mb-4 shadow-sm">
+                  Khám phá REDHOPE
+                </Badge>
+                <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">
+                  Sứ mệnh của <span className="text-primary font-black">chúng tôi</span>
+                </h2>
+                <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
+                  Xem video ngắn để hiểu cách REDHOPE đang thay đổi tương lai của ngành hiến máu thông qua công nghệ kết nối thời gian thực.
+                </p>
+              </FadeIn>
+
+              <FadeIn delay={0.2} className="relative group">
+                <div className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(37,99,235,0.15)] border-8 border-white bg-slate-900 aspect-video">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube.com/embed/V2oUGPQmYT0?autoplay=0&rel=0"
+                    title="REDHOPE Introduction Video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  ></iframe>
+                </div>
+                
+                {/* Decorative Elements */}
+                <div className="absolute -top-6 -right-6 w-24 h-24 bg-blue-100 rounded-full blur-2xl opacity-50 -z-10 group-hover:opacity-80 transition-opacity"></div>
+                <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-red-100 rounded-full blur-2xl opacity-50 -z-10 group-hover:opacity-80 transition-opacity"></div>
+              </FadeIn>
             </div>
           </section>
 
