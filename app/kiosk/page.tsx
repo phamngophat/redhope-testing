@@ -108,7 +108,7 @@ export default function KioskPage() {
             `}</style>
 
             {/* ═══ HEADER ═══ */}
-            <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0">
+            <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shrink-0">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
@@ -152,7 +152,22 @@ export default function KioskPage() {
                 <section className="flex-1 bg-white rounded-2xl border border-slate-200 p-8 flex flex-col items-center justify-center relative">
                     <div className="absolute top-0 left-0 right-0 h-1 bg-red-600 rounded-t-2xl"></div>
 
-                    <div className="text-center mb-5">
+                    {/* Mã QR ở góc phải bằng SVG tự sinh để không bao giờ bị lỗi ảnh */}
+                    <div className="absolute bottom-6 right-6 w-24 flex flex-col items-center gap-1.5">
+                        <div className="w-full bg-white p-2 rounded-xl shadow-sm border border-slate-100 hover:scale-105 transition-transform cursor-pointer drop-shadow-md flex items-center justify-center">
+                            <QRCodeSVG 
+                                value="https://redhope.io.vn" 
+                                size={80} 
+                                level="H" 
+                                includeMargin={false} 
+                                bgColor="#ffffff" 
+                                fgColor="#dc2626" 
+                            />
+                        </div>
+                        <p className="text-[10px] font-bold text-slate-500 tracking-wide mt-0.5">redhope.io.vn</p>
+                    </div>
+
+                    <div className="text-center mb-5 mt-4">
                         <h2 className="text-3xl lg:text-4xl font-black text-slate-800 tracking-tight mb-2">
                             Quét mã <span className="text-red-600">Check-in</span>
                         </h2>
@@ -188,24 +203,67 @@ export default function KioskPage() {
                         </span>
                     </div>
 
-                    {/* Stats */}
-                    <div className="mt-5 flex items-center gap-6 text-sm">
-                        <div className="flex items-center gap-2 text-slate-500">
-                            <span className="material-symbols-outlined text-base text-red-400" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-                            <span className="font-extrabold text-slate-700 text-lg">{registrations.length}</span>
-                            <span className="text-xs">đăng ký</span>
+                    {/* Thống kê 4 ô giống bản thiết kế yêu cầu */}
+                    <div className="mt-8 grid grid-cols-4 gap-4 w-full px-2">
+                        {/* 1. Đăng ký */}
+                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-blue-50 rounded-xl">
+                                    <span className="material-symbols-outlined text-blue-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>groups</span>
+                                </div>
+                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Đăng ký</span>
+                            </div>
+                            <span className="text-3xl font-black text-slate-800">{registrations.length}</span>
                         </div>
-                        <div className="w-px h-5 bg-slate-200"></div>
-                        <div className="flex items-center gap-2 text-slate-500">
-                            <span className="material-symbols-outlined text-base text-red-400" style={{ fontVariationSettings: "'FILL' 1" }}>how_to_reg</span>
-                            <span className="font-extrabold text-slate-700 text-lg">{checkedInCount}</span>
-                            <span className="text-xs">check-in</span>
+
+                        {/* 2. Hoàn thành */}
+                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-emerald-50 rounded-xl">
+                                    <span className="material-symbols-outlined text-emerald-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>check_circle</span>
+                                </div>
+                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Hoàn thành</span>
+                            </div>
+                            <span className="text-3xl font-black text-slate-800">{completedCount}</span>
                         </div>
-                        <div className="w-px h-5 bg-slate-200"></div>
-                        <div className="flex items-center gap-2 text-slate-500">
-                            <span className="material-symbols-outlined text-base text-red-400" style={{ fontVariationSettings: "'FILL' 1" }}>volunteer_activism</span>
-                            <span className="font-extrabold text-slate-700 text-lg">{completedCount}</span>
-                            <span className="text-xs">hoàn thành</span>
+
+                        {/* 3. Hoãn hiến */}
+                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-amber-50 rounded-xl">
+                                    <span className="material-symbols-outlined text-amber-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>schedule</span>
+                                </div>
+                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Hoãn hiến</span>
+                            </div>
+                            <span className="text-3xl font-black text-slate-800">
+                                {registrations.filter(r => r.status?.toLowerCase() === 'deferred' || r.status?.toLowerCase() === 'cancelled').length}
+                            </span>
+                        </div>
+
+                        {/* 4. Tiến độ */}
+                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-blue-50 rounded-xl">
+                                    <span className="material-symbols-outlined text-blue-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>water_drop</span>
+                                </div>
+                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Tiến độ</span>
+                            </div>
+                            
+                            <div className="flex items-end justify-between">
+                                <span className="text-3xl font-black text-slate-800">
+                                    {Math.round((registrations.filter(r => r.status?.toLowerCase() === 'completed').reduce((sum, r) => sum + (r.blood_volume || 350), 0) / ((campaign?.target_units || 100) * 350)) * 100)}%
+                                </span>
+                                <span className="text-[9px] font-bold text-slate-400 tracking-wider mb-1 uppercase">
+                                    Mục tiêu: {(campaign?.target_units || 100) * 350}ML
+                                </span>
+                            </div>
+                            
+                            {/* Thanh progress bar giả lập như hình mẫu */}
+                            <div className="w-full bg-slate-100 h-1.5 mt-2 rounded-full overflow-hidden">
+                                <div className="bg-blue-500 h-full rounded-full" 
+                                    style={{ width: `${Math.min(100, Math.round((registrations.filter(r => r.status?.toLowerCase() === 'completed').reduce((sum, r) => sum + (r.blood_volume || 350), 0) / ((campaign?.target_units || 100) * 350)) * 100))}%` }}>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -235,7 +293,7 @@ export default function KioskPage() {
                                         }`}
                                 >
                                     {/* STT */}
-                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm flex-shrink-0 ${isCI ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-300'
+                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-black text-sm shrink-0 ${isCI ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-300'
                                         }`}>
                                         {isCI ? String(reg.queue_number || '?').padStart(2, '0') : '—'}
                                     </div>
@@ -255,7 +313,7 @@ export default function KioskPage() {
                                     </div>
 
                                     {/* Badge */}
-                                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold flex-shrink-0 ${isCI ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-400'
+                                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold shrink-0 ${isCI ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-400'
                                         }`}>
                                         <span className="material-symbols-outlined text-[11px]" style={{ fontVariationSettings: "'FILL' 1" }}>
                                             {isCI ? 'check_circle' : 'pending'}
@@ -278,7 +336,7 @@ export default function KioskPage() {
             </main>
 
             {/* ═══ FOOTER ═══ */}
-            <footer className="h-10 bg-white border-t border-slate-200 flex items-center overflow-hidden flex-shrink-0">
+            <footer className="h-10 bg-white border-t border-slate-200 flex items-center overflow-hidden shrink-0">
                 <div className="ticker-wrap">
                     <div className="ticker-content">
                         {[1, 2].map(dup => (
