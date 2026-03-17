@@ -152,20 +152,7 @@ export default function KioskPage() {
                 <section className="flex-1 bg-white rounded-2xl border border-slate-200 p-8 flex flex-col items-center justify-center relative">
                     <div className="absolute top-0 left-0 right-0 h-1 bg-red-600 rounded-t-2xl"></div>
 
-                    {/* Mã QR ở góc phải bằng SVG tự sinh để không bao giờ bị lỗi ảnh */}
-                    <div className="absolute bottom-6 right-6 w-24 flex flex-col items-center gap-1.5">
-                        <div className="w-full bg-white p-2 rounded-xl shadow-sm border border-slate-100 hover:scale-105 transition-transform cursor-pointer drop-shadow-md flex items-center justify-center">
-                            <QRCodeSVG 
-                                value="https://redhope.io.vn" 
-                                size={80} 
-                                level="H" 
-                                includeMargin={false} 
-                                bgColor="#ffffff" 
-                                fgColor="#dc2626" 
-                            />
-                        </div>
-                        <p className="text-[10px] font-bold text-slate-500 tracking-wide mt-0.5">redhope.io.vn</p>
-                    </div>
+
 
                     <div className="text-center mb-5 mt-4">
                         <h2 className="text-3xl lg:text-4xl font-black text-slate-800 tracking-tight mb-2">
@@ -203,74 +190,26 @@ export default function KioskPage() {
                         </span>
                     </div>
 
-                    {/* Thống kê 4 ô giống bản thiết kế yêu cầu */}
-                    <div className="mt-8 grid grid-cols-4 gap-4 w-full px-2">
-                        {/* 1. Đăng ký */}
-                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="p-2 bg-blue-50 rounded-xl">
-                                    <span className="material-symbols-outlined text-blue-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>groups</span>
-                                </div>
-                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Đăng ký</span>
-                            </div>
-                            <span className="text-3xl font-black text-slate-800">{registrations.length}</span>
-                        </div>
-
-                        {/* 2. Hoàn thành */}
-                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="p-2 bg-emerald-50 rounded-xl">
-                                    <span className="material-symbols-outlined text-emerald-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>check_circle</span>
-                                </div>
-                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Hoàn thành</span>
-                            </div>
-                            <span className="text-3xl font-black text-slate-800">{completedCount}</span>
-                        </div>
-
-                        {/* 3. Hoãn hiến */}
-                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="p-2 bg-amber-50 rounded-xl">
-                                    <span className="material-symbols-outlined text-amber-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>schedule</span>
-                                </div>
-                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Hoãn hiến</span>
-                            </div>
-                            <span className="text-3xl font-black text-slate-800">
-                                {registrations.filter(r => r.status?.toLowerCase() === 'deferred' || r.status?.toLowerCase() === 'cancelled').length}
-                            </span>
-                        </div>
-
-                        {/* 4. Tiến độ */}
-                        <div className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative">
-                            <div className="flex items-center gap-2 mb-4">
-                                <div className="p-2 bg-blue-50 rounded-xl">
-                                    <span className="material-symbols-outlined text-blue-500 text-lg" style={{ fontVariationSettings: "'FILL' 0" }}>water_drop</span>
-                                </div>
-                                <span className="text-xs font-black text-slate-700 uppercase tracking-wide">Tiến độ</span>
-                            </div>
-                            
-                            <div className="flex items-end justify-between">
-                                <span className="text-3xl font-black text-slate-800">
-                                    {Math.round((registrations.filter(r => r.status?.toLowerCase() === 'completed').reduce((sum, r) => sum + (r.blood_volume || 350), 0) / ((campaign?.target_units || 100) * 350)) * 100)}%
-                                </span>
-                                <span className="text-[9px] font-bold text-slate-400 tracking-wider mb-1 uppercase">
-                                    Mục tiêu: {(campaign?.target_units || 100) * 350}ML
-                                </span>
-                            </div>
-                            
-                            {/* Thanh progress bar giả lập như hình mẫu */}
-                            <div className="w-full bg-slate-100 h-1.5 mt-2 rounded-full overflow-hidden">
-                                <div className="bg-blue-500 h-full rounded-full" 
-                                    style={{ width: `${Math.min(100, Math.round((registrations.filter(r => r.status?.toLowerCase() === 'completed').reduce((sum, r) => sum + (r.blood_volume || 350), 0) / ((campaign?.target_units || 100) * 350)) * 100))}%` }}>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
                 {/* ─── RIGHT: Queue ─── */}
                 <section className="flex-1 bg-white rounded-2xl border border-slate-200 flex flex-col overflow-hidden relative">
                     <div className="absolute top-0 left-0 right-0 h-1 bg-red-600 rounded-t-2xl"></div>
+
+                    {/* Mã QR ở góc dưới bên phải */}
+                    <div className="absolute bottom-6 right-6 w-24 flex flex-col items-center gap-1.5 z-10">
+                        <div className="w-full bg-white p-2 rounded-xl shadow-sm border border-slate-100 hover:scale-105 transition-transform cursor-pointer drop-shadow-md flex items-center justify-center">
+                            <QRCodeSVG 
+                                value="https://redhope.io.vn" 
+                                size={80} 
+                                level="H" 
+                                includeMargin={false} 
+                                bgColor="#ffffff" 
+                                fgColor="#dc2626" 
+                            />
+                        </div>
+                        <p className="text-[10px] font-bold text-slate-500 tracking-wide mt-0.5">redhope.io.vn</p>
+                    </div>
 
                     <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                         <div className="flex items-center gap-2.5">

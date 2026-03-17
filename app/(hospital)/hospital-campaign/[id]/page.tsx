@@ -850,53 +850,63 @@ export default function CampaignDetailsPage() {
 
                 {/* Stats Cards */}
                 {showStats && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 animate-in slide-in-from-top-2 fade-in duration-300">
-                        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-400 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 mb-2">
-                                <div className="p-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg shadow-sm border border-blue-100 dark:border-blue-800">
-                                    <Users className="w-4 h-4" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 animate-in slide-in-from-top-2 fade-in duration-300">
+                        {/* 1. Đăng ký */}
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
+                                    <Users className="w-5 h-5 text-blue-500" />
                                 </div>
-                                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-400 uppercase tracking-tight">Đăng ký</span>
+                                <span className="text-xs font-black text-slate-700 dark:text-slate-400 uppercase tracking-wide">Đăng ký</span>
                             </div>
-                            <div className="text-xl font-black text-slate-800 dark:text-white leading-none">{totalRegistered}</div>
+                            <span className="text-3xl font-black text-slate-800 dark:text-white">{totalRegistered}</span>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-400 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-2">
-                                <div className="p-1.5 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg shadow-sm border border-emerald-100 dark:border-emerald-800">
-                                    <CheckCircle2 className="w-4 h-4" />
+                        {/* 2. Hoàn thành */}
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl">
+                                    <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                                 </div>
-                                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-400 uppercase tracking-tight">Hoàn thành</span>
+                                <span className="text-xs font-black text-slate-700 dark:text-slate-400 uppercase tracking-wide">Hoàn thành</span>
                             </div>
-                            <div className="text-xl font-black text-slate-800 dark:text-white leading-none">{totalCompleted}</div>
+                            <span className="text-3xl font-black text-slate-800 dark:text-white">{totalCompleted}</span>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-400 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 mb-2">
-                                <div className="p-1.5 bg-amber-50 dark:bg-amber-900/30 rounded-lg shadow-sm border border-amber-100 dark:border-amber-800">
-                                    <Clock className="w-4 h-4" />
+                        {/* 3. Hoãn hiến */}
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-amber-50 dark:bg-amber-900/30 rounded-xl">
+                                    <Clock className="w-5 h-5 text-amber-500" />
                                 </div>
-                                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-400 uppercase tracking-tight">Hoãn hiến</span>
+                                <span className="text-xs font-black text-slate-700 dark:text-slate-400 uppercase tracking-wide">Hoãn hiến</span>
                             </div>
-                            <div className="text-xl font-black text-slate-800 dark:text-white leading-none">{totalDeferred}</div>
+                            <span className="text-3xl font-black text-slate-800 dark:text-white">{totalDeferred}</span>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-400 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow">
-                            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 mb-2">
-                                <div className="p-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg shadow-sm border border-blue-100 dark:border-blue-800">
-                                    <Droplet className="w-4 h-4" />
+                        {/* 4. Tiến độ */}
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow relative">
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
+                                    <Droplet className="w-5 h-5 text-blue-500" />
                                 </div>
-                                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-400 uppercase tracking-tight">Tiến độ</span>
+                                <span className="text-xs font-black text-slate-700 dark:text-slate-400 uppercase tracking-wide">Tiến độ</span>
                             </div>
-                            <div className="flex items-end justify-between mb-1.5">
-                                <div className="text-xl font-black text-slate-800 dark:text-white leading-none">{Math.round(progress)}%</div>
-                                <span className="text-[9px] font-bold text-slate-400 uppercase">Mục tiêu: {targetMl}ml</span>
+                            
+                            <div className="flex items-end justify-between">
+                                <span className="text-3xl font-black text-slate-800 dark:text-white">
+                                    {Math.round(progress)}%
+                                </span>
+                                <span className="text-[9px] font-bold text-slate-400 tracking-wider mb-1 uppercase">
+                                    Mục tiêu: {targetMl}ML
+                                </span>
                             </div>
-                            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200 dark:border-slate-700">
-                                <div
-                                    className="bg-blue-600 h-full transition-all duration-500 shadow-[0_0_8px_rgba(37,99,235,0.3)]"
-                                    style={{ width: `${Math.min(progress, 100)}%` }}
-                                />
+                            
+                            {/* Thanh progress bar */}
+                            <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 mt-2 rounded-full overflow-hidden">
+                                <div className="bg-[#0065FF] h-full rounded-full transition-all duration-500" 
+                                    style={{ width: `${Math.min(100, Math.round(progress))}%` }}>
+                                </div>
                             </div>
                         </div>
                     </div>
