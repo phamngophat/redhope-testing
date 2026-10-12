@@ -13,6 +13,12 @@
    ═══ Part 1: screeningService - Cooldown Logic ═══
    ═══════════════════════════════════════════════════ */
 
+/* 👉 [BƯỚC 1 - NÓI VỀ MOCKING]: Bôi đen toàn bộ đoạn khai báo mock dưới đây (từ dòng const mockMaybeSingle đến hết khối jest.mock)
+   🗣️ LỜI THOẠI NÓI:
+   "Thứ nhất là khái niệm MOCKING bằng jest.mock và jest.fn. Theo nguyên tắc Unit Test độc lập và chạy nhanh, 
+   ở đoạn này nhóm em giả lập toàn bộ hành vi của Supabase Database như from, select, eq ngay trên RAM 
+   mà không gọi ra Internet thật."
+*/
 // Mock supabase
 const mockMaybeSingle = jest.fn();
 const mockLimit = jest.fn(() => ({ maybeSingle: mockMaybeSingle }));
@@ -34,10 +40,20 @@ jest.mock('@/lib/supabase', () => ({
         },
     },
 }));
+/* -------------------------------------------------------------------------- */
 
 import { screeningService } from '@/services/screening.service';
 
+/* 
+   "Thứ hai là TEST SUITE với từ khóa describe. Dòng này dùng để gom nhóm toàn bộ các ca kiểm thử 
+   thuộc cùng một chức năng nghiệp vụ là kiểm tra giãn cách hiến máu checkDonationCooldown."
+*/
 describe('screeningService.checkDonationCooldown', () => {
+
+    /* 
+       "Thứ ba là LIFECYCLE HOOKS với beforeEach. Khối này tự động chạy trước MỖI test case để gọi 
+       jest.clearAllMocks(), dọn sạch dữ liệu giả lập cũ để các bài test không bị ảnh hưởng chéo lẫn nhau."
+    */
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -87,6 +103,10 @@ describe('screeningService.checkDonationCooldown', () => {
         expect(result.daysRemaining).toBe(83);
     });
 
+    /* 
+       "Thứ tư là TEST CASE bằng từ khóa it hoặc test. Mỗi khối này định nghĩa một kịch bản kiểm thử độc lập, 
+       ví dụ ở đây là ca kiểm thử biên: người hiến cách đây đúng 83 ngày."
+    */
     it('should return onCooldown=true when last donation was 83 days ago (edge case)', async () => {
         const eightyThreeDaysAgo = new Date();
         eightyThreeDaysAgo.setDate(eightyThreeDaysAgo.getDate() - 83);
@@ -98,6 +118,11 @@ describe('screeningService.checkDonationCooldown', () => {
 
         const result = await screeningService.checkDonationCooldown('user-1');
 
+        /* 
+           "Thứ năm là ASSERTIONS với hàm expect và Matcher .toBe(). Đoạn này dùng để kiểm chứng kết quả thực tế 
+           so với kỳ vọng: vì mới 83 ngày nên onCooldown bắt buộc là true và số ngày còn lại phải là 1. 
+           Nếu đúng hoàn toàn, bài test sẽ PASS màu xanh lá."
+        */
         expect(result.onCooldown).toBe(true);
         expect(result.daysSinceLast).toBe(83);
         expect(result.daysRemaining).toBe(1);
@@ -179,7 +204,6 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
     });
 
     it('should return cooldown status when user donated recently', async () => {
-        // Mock donation_records - 10 days ago
         const tenDaysAgo = new Date();
         tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
         mockMaybeSingle.mockResolvedValue({
@@ -196,10 +220,8 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
     });
 
     it('should check AI screening when cooldown is cleared (no donations)', async () => {
-        // No donation records
         mockMaybeSingle.mockResolvedValue({ data: null, error: null });
 
-        // Mock auth for screening status - passed
         mockGetUser.mockResolvedValue({
             data: {
                 user: {
@@ -220,7 +242,6 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
     });
 
     it('should check AI screening when cooldown is cleared (donation > 84 days ago)', async () => {
-        // Donation 90 days ago
         const ninetyDaysAgo = new Date();
         ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
         mockMaybeSingle.mockResolvedValue({
@@ -228,7 +249,6 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
             error: null,
         });
 
-        // Mock auth - passed screening
         mockGetUser.mockResolvedValue({
             data: {
                 user: {
@@ -249,16 +269,12 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
     });
 
     it('should prioritize cooldown over screening status', async () => {
-        // Donated 5 days ago (on cooldown)
         const fiveDaysAgo = new Date();
         fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
         mockMaybeSingle.mockResolvedValue({
             data: { verified_at: fiveDaysAgo.toISOString() },
             error: null,
         });
-
-        // Even if screening passed, cooldown should take priority
-        // (getUser won't even be called because cooldown check returns first)
 
         const result = await screeningService.checkEligibility('user-1');
 
@@ -267,10 +283,8 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
     });
 
     it('should return not_done when no donation history and no screening', async () => {
-        // No donations
         mockMaybeSingle.mockResolvedValue({ data: null, error: null });
 
-        // Mock auth - not done
         mockGetUser.mockResolvedValue({
             data: {
                 user: {
@@ -292,17 +306,10 @@ describe('screeningService.checkEligibility (with cooldown)', () => {
    ═══ Part 3: campaignService - Registration Cooldown ═══
    ══════════════════════════════════════════════════════════ */
 
-// We need to test campaign.service separately because it has its own mock setup
-// These tests verify the cooldown guard in registerToCampaign and registerToBloodRequest
-
 describe('campaignService cooldown guard', () => {
-    // Note: campaignService is already using the mocked supabase from above
-    // We'll dynamically require it after mock setup
-
     let campaignServiceModule: any;
 
     beforeAll(() => {
-        // Mock notification service
         jest.mock('@/services/notification.service', () => ({
             notificationService: {
                 sendCampaignNotification: jest.fn(),
@@ -321,7 +328,6 @@ describe('campaignService cooldown guard', () => {
         const twentyDaysAgo = new Date();
         twentyDaysAgo.setDate(twentyDaysAgo.getDate() - 20);
 
-        // Mock from('donation_records') to return recent donation
         mockFrom.mockImplementation((table: string) => {
             if (table === 'donation_records') {
                 return {
@@ -339,7 +345,6 @@ describe('campaignService cooldown guard', () => {
                     })),
                 };
             }
-            // Default for other tables
             return {
                 select: jest.fn(() => ({
                     eq: jest.fn(() => ({
@@ -478,7 +483,6 @@ describe('campaignService cooldown guard', () => {
             };
         });
 
-        // Should NOT throw
         const result = await campaignServiceModule.registerToCampaign('user-1', 'campaign-1');
         expect(result).toBeDefined();
     });
@@ -558,4 +562,4 @@ describe('campaignService cooldown guard', () => {
     });
 });
 
-export { };
+export { };// Boundary test cases for 84-day cooldown verified by Phat
