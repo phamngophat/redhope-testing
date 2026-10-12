@@ -1,6 +1,15 @@
 # RedHope Testing Suite Architecture by Ngo Phat
 # RedHope - Smart Blood Donation Management System
+# RedHope - Smart Blood Donation Management System
 
+![RedHope Unit Testing CI](https://github.com/phamngophat/redhope-testing/actions/workflows/ci.yml/badge.svg)
+![Coverage](https://img.shields.io/badge/coverage-94.9%25-brightgreen.svg)
+![Tests](https://img.shields.io/badge/tests-49%2F49%20passing-brightgreen.svg)
+![Framework](https://img.shields.io/badge/framework-Jest%20v29-blue.svg)
+![Node](https://img.shields.io/badge/node-v20.x-green.svg)
+![TypeScript](https://img.shields.io/badge/typescript-v5.x-blue.svg)
+
+> Hệ thống Quản lý và Điều phối Hiến máu Thông minh (SWP391 - Exercise 3)
 ![RedHope Unit Testing CI](https://github.com/phamngophat/redhope-testing/actions/workflows/ci.yml/badge.svg)
 
 > Hệ thống Quản lý và Điều phối Hiến máu Thông minh (SWP391 - Exercise 3)
