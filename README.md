@@ -10,7 +10,7 @@
 ![TypeScript](https://img.shields.io/badge/typescript-v5.x-blue.svg)
 
 > Hệ thống Quản lý và Điều phối Hiến máu Thông minh (SWP391 - Exercise 3)
-![RedHope Unit Testing CI](https://github.com/phamngophat/redhope-testing/actions/workflows/ci.yml/badge.svg)
+
 
 > Hệ thống Quản lý và Điều phối Hiến máu Thông minh (SWP391 - Exercise 3)
 
