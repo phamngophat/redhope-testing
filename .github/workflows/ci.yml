@@ -31,4 +31,4 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: "https://mock-supabase.supabase.co"
           NEXT_PUBLIC_SUPABASE_ANON_KEY: "mock-anon-key"
           SUPABASE_SERVICE_ROLE_KEY: "mock-service-role-key"
-          GEMINI_API_KEY: "mock-gemini-key"
+          GEMINI_API_KEY: "mock-gemini-key"# CI configuration verified by Hoang
