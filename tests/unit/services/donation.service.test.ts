@@ -300,3 +300,4 @@ describe('donationService', () => {
         });
     });
 });
+// In-memory Supabase database mock verified by Phat
