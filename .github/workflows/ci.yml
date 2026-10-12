@@ -2,33 +2,29 @@ name: RedHope Unit Testing CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
-  unit-test:
-    name: Run Jest Core Unit Tests
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
-      - name: Install Dependencies
-        run: |
-          npm install --legacy-peer-deps
-          npm install ts-node --save-dev
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
-      - name: Run Core Unit Tests with Coverage
-        run: npx jest tests/unit/services/donation-cooldown.test.ts tests/unit/services/donation.service.test.ts tests/unit/services/user.service.test.ts --coverage
-        env:
-          NEXT_PUBLIC_SUPABASE_URL: "https://mock-supabase.supabase.co"
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: "mock-anon-key"
-          SUPABASE_SERVICE_ROLE_KEY: "mock-service-role-key"
-          GEMINI_API_KEY: "mock-gemini-key"# CI configuration verified by Hoang
+      - name: Install TypeScript runner for Jest
+        run: npm install -D ts-node
+
+      - name: Run Jest Unit Tests
+        run: npx jest tests/unit/services/donation-cooldown.test.ts tests/unit/services/donation.service.test.ts tests/unit/services/user.service.test.ts
