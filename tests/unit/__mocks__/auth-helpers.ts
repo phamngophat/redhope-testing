@@ -24,3 +24,4 @@ export function setupAuthMock(overrides?: Partial<typeof MOCK_AUTH_USER>) {
     mockRequireRole.mockResolvedValue({ user, error: null });
     return user;
 }
+    

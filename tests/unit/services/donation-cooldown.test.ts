@@ -1,20 +1,16 @@
 /**
- * Test: Donation Cooldown (3 tháng / 84 ngày)
- * Kiểm tra logic chặn đăng ký chiến dịch khi chưa đủ 3 tháng sau lần hiến máu gần nhất.
- * 
- * Bao gồm:
- * 1. screeningService.checkDonationCooldown()
- * 2. screeningService.checkEligibility() tích hợp cooldown
- * 3. campaignService.registerToCampaign() cooldown guard
- * 4. campaignService.registerToBloodRequest() cooldown guard
+  Test: Donation Cooldown 
+  Kiểm tra logic chặn đăng ký chiến dịch khi chưa đủ 3 tháng sau lần hiến máu gần nhất.
+ 
+ Bao gồm:
+  1. screeningService.checkDonationCooldown()
+ 2. screeningService.checkEligibility() tích hợp cooldown
+ 3. campaignService.registerToCampaign() cooldown guard
+ 4. campaignService.registerToBloodRequest() cooldown guard
  */
 
-/* ═══════════════════════════════════════════════════
-   ═══ Part 1: screeningService - Cooldown Logic ═══
-   ═══════════════════════════════════════════════════ */
 
-/* 👉 [BƯỚC 1 - NÓI VỀ MOCKING]: Bôi đen toàn bộ đoạn khai báo mock dưới đây (từ dòng const mockMaybeSingle đến hết khối jest.mock)
-   🗣️ LỜI THOẠI NÓI:
+/*
    "Thứ nhất là khái niệm MOCKING bằng jest.mock và jest.fn. Theo nguyên tắc Unit Test độc lập và chạy nhanh, 
    ở đoạn này nhóm em giả lập toàn bộ hành vi của Supabase Database như from, select, eq ngay trên RAM 
    mà không gọi ra Internet thật."
